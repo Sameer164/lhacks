@@ -1,0 +1,60 @@
+WindowManager:
+    MainWindow:
+    SecondWindow:
+
+
+<Button>:
+    font_size: 40
+    color: 0.1,0.5,0.6,1
+
+<MainWindow>:
+
+    name: "main"
+
+    FloatLayout:
+
+        TextInput:
+            hint_text: "Name"
+            background_color: 1, 1, 1, 1
+            size_hint: 0.3, 0.07
+            pos_hint: {'center_x': 0.5, 'top': 0.65}
+            id: passw
+            multiline: False
+
+
+        
+        TextInput:
+            hint_text: "Email"
+            background_color: 1, 1, 1, 1
+            size_hint: 0.3, 0.07
+            pos_hint: {'center_x': 0.5, 'top': 0.55}
+            id: passw
+            multiline: False
+
+
+        TextInput:
+            hint_text: "Password"
+            background_color: 1, 1, 1, 1
+            size_hint: 0.3, 0.07
+            pos_hint: {'center_x': 0.5, 'top': 0.45}
+            id: passw
+            multiline: False
+
+        Button:
+            text: "Submit"
+            background_color: 0.1, 0.5, 0.6, 1
+            pos_hint: {"x":0.43, "top":0.3}
+            size_hint: 0.15, 0.09
+            on_release:
+                app.root.current = "second" if passw.text == "tim" else "main"
+                root.manager.transition.direction = "left"
+
+
+<SecondWindow>:
+    name: "second"
+
+    Button:
+        text: "Go Back"
+        on_release:
+            app.root.current = "main"
+            root.manager.transition.direction = "right"
