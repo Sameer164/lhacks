@@ -1,6 +1,10 @@
 WindowManager:
     MainWindow:
     SecondWindow:
+    Questionnaire:
+    
+
+
 
 
 <Button>:
@@ -8,53 +12,119 @@ WindowManager:
     color: 0.1,0.5,0.6,1
 
 <MainWindow>:
-
     name: "main"
 
+    named: named
+    email: email
+    password: password
+
     FloatLayout:
+
+
 
         TextInput:
             hint_text: "Name"
             background_color: 1, 1, 1, 1
             size_hint: 0.3, 0.07
             pos_hint: {'center_x': 0.5, 'top': 0.65}
-            id: passw
+            id: named
             multiline: False
 
-
-        
         TextInput:
             hint_text: "Email"
             background_color: 1, 1, 1, 1
             size_hint: 0.3, 0.07
             pos_hint: {'center_x': 0.5, 'top': 0.55}
-            id: passw
+            id: email
             multiline: False
 
 
         TextInput:
             hint_text: "Password"
+            password: True
             background_color: 1, 1, 1, 1
             size_hint: 0.3, 0.07
             pos_hint: {'center_x': 0.5, 'top': 0.45}
-            id: passw
+            id: password
             multiline: False
 
         Button:
-            text: "Submit"
+            text: "Sign Up!"
             background_color: 0.1, 0.5, 0.6, 1
             pos_hint: {"x":0.43, "top":0.3}
             size_hint: 0.15, 0.09
+
             on_release:
-                app.root.current = "second" if passw.text == "tim" else "main"
+                app.root.current = "second" if root.good() else "main"
                 root.manager.transition.direction = "left"
+
 
 
 <SecondWindow>:
     name: "second"
+    Label: 
+        text: "Successfully Signed Up. "+ root.get_code() + ". Note this code. This is what you'll use for logging in.\n \n Complete the questionnaire to get started."
+
 
     Button:
         text: "Go Back"
+        background_color: 0.1, 0.5, 0.6, 1
+        size_hint: 0.15, 0.09
         on_release:
             app.root.current = "main"
             root.manager.transition.direction = "right"
+    
+    Button:
+        text: "Continue"
+        background_color: 0.1, 0.5, 0.6, 1
+        size_hint: 0.15, 0.09
+        pos_hint: {"x": 0.85, "y":0}
+        on_release:
+            app.root.current = "questionnaire"
+            root.manager.transition.direction = "left"
+
+
+
+<Questionnaire>:
+    name: "questionnaire"
+
+
+    Button:
+        id: btn
+        text: "Press me !!"
+        size_hint: None, None
+        on_parent: drop_content.dismiss()
+        on_release: drop_content.open(self)
+
+
+    DropDown:
+        id: drop_content
+        on_select: btn.text = '{}'.format(args[1])
+
+        Button:
+            id: btn1
+            text: 'First Item'
+            size_hint_y: None
+            height: 35
+            on_release: drop_content.select('First Item')
+
+        Label:
+            text:"Drop2"
+            size_hint_y: None
+            height: 44
+
+        Button:
+            id: btn3
+            text: 'Third Item'
+            size_hint_y: None
+            height: 35
+            on_release: drop_content.select('Third Item')
+
+    Button:
+        text: "Go Back"
+        background_color: 0.1, 0.5, 0.6, 1
+        size_hint: 0.15, 0.09
+        pos_hint: {"x": 0, "y":0}
+        on_release:
+            app.root.current = "main"
+            root.manager.transition.direction = "left"
