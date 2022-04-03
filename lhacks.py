@@ -12,6 +12,8 @@ from kivy.base import runTouchApp
 from kivy.uix.spinner import Spinner
 
 
+all_users  = []
+
 class MainWindow(Screen):
     named = ObjectProperty(None)
     email = ObjectProperty(None)
@@ -61,7 +63,8 @@ class Login(Screen):
     p = Password_saver()
     def valid(self):
         if self.p.is_valid(self.code):
-            self.p.login(self.code)
+            a = self.p.login(self.code)
+            MyMainApp.glob.append(a)
             return True
         else:
             return False
@@ -76,11 +79,18 @@ class WindowManager(ScreenManager):
 
 
 class Profile(Screen):
-    pass
+    def info(self):
+        p = Password_saver()
+        p.get_info(MyMainApp.glob[-1])
+        return p
+
+
+
 
 
 
 class MyMainApp(App):
+    glob = []
     def build(self):
         return Builder.load_file("my.kv")
 

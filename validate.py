@@ -59,7 +59,10 @@ class Password_saver:
                 return code
     
 
-   
+    def get_info(self, code):
+        self.curs.execute("SELECT * FROM users WHERE code = :code", {'code': code})
+        result = self.curs.fetchall()
+        return result[0][0]
 
             
     def gender(self, answer):
@@ -96,6 +99,7 @@ class Password_saver:
         self.curs.execute("SELECT * FROM users WHERE code =:code", {'code': code.text})
         result = self.curs.fetchall()
         print("You are now logged in as ", result[0][0])
+        return code.text
 
 
 
