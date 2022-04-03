@@ -89,13 +89,13 @@ WindowManager:
     name: "questionnaire"
 
 
-    GridLayout:
-        size_hint: 0.5, 0.5
-        cols: 1
+    FloatLayout:
+
         Button:
             id: btn
+            size_hint: 0.5, 0.5
+            pos_hint: {"x": 0.4, "y": 0}
             text: "Press me !!"
-            size_hint: 0.6, 0.6
             on_parent: drop_content.dismiss()
             on_release: drop_content.open(self)
         DropDown:
@@ -104,13 +104,13 @@ WindowManager:
             Button:
                 id: btn1
                 text: 'First Item'
-                size_hint: None, None
+                size_hint: 0.4, 0.2
                 height: 35
                 on_release: drop_content.select('First Item')
             Button:
                 id: btn3
                 text: 'Second Item'
-                size_hint: None, None
+                size_hint: 0.4, 0.2
                 height: 35
                 on_release: drop_content.select('Third Item')
 
