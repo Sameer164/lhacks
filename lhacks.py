@@ -1,4 +1,5 @@
 from ast import Pass
+import code
 from kivy.app import App
 from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
@@ -42,25 +43,28 @@ class SecondWindow(Screen):
 
 
 
-class drop_content(DropDown):
-    pass
 
 class Questionnaire(Screen):
-    # spinner = Spinner(
-    #     # default value shown
-    #     text='Home',
-    #     # available values
-    #     values=('Home', 'Work', 'Other', 'Custom'),
-    #     # just for positioning in our example
-    #     size_hint=(None, None),
-    #     size=(100, 44),
-    #     pos_hint={'center_x': .5, 'center_y': .5}
-    # )
-
-    # runTouchApp(spinner)
-    pass
+    def on_spinner_select(self,text, a):
+        p = Password_saver()
+        if a == "g":
+            p.gender(text)
+        elif a == "p":
+            p.preference(text)
+        else:
+            p.age(text)
+        return 
 
 
+class Login(Screen):
+    code = ObjectProperty(None)
+    p = Password_saver()
+    def valid(self):
+        if self.p.is_valid(self.code):
+            self.p.login(self.code)
+            return True
+        else:
+            return False
 
     
 
@@ -71,13 +75,14 @@ class WindowManager(ScreenManager):
 
 
 
+class Profile(Screen):
+    pass
 
-kv = Builder.load_file("my.kv")
 
 
 class MyMainApp(App):
     def build(self):
-        return kv
+        return Builder.load_file("my.kv")
 
 
 if __name__ == "__main__":

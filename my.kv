@@ -2,6 +2,8 @@ WindowManager:
     MainWindow:
     SecondWindow:
     Questionnaire:
+    Login:
+    Profile:
     
 
 
@@ -57,6 +59,15 @@ WindowManager:
             on_release:
                 app.root.current = "second" if root.good() else "main"
                 root.manager.transition.direction = "left"
+        Button:
+            text: "Login Instead"
+            background_color: 0.1, 0.5, 0.6, 1
+            pos_hint: {"x":0.4, "top":0.2}
+            size_hint: 0.2, 0.09
+
+            on_release:
+                app.root.current = "login"
+                root.manager.transition.direction = "left"
 
 
 
@@ -88,31 +99,39 @@ WindowManager:
 <Questionnaire>:
     name: "questionnaire"
 
-
     FloatLayout:
 
-        Button:
-            id: btn
-            size_hint: 0.5, 0.5
-            pos_hint: {"x": 0.4, "y": 0}
-            text: "Press me !!"
-            on_parent: drop_content.dismiss()
-            on_release: drop_content.open(self)
-        DropDown:
-            id: drop_content
-            on_select: btn.text = f'{args[1]}' # see note below
-            Button:
-                id: btn1
-                text: 'First Item'
-                size_hint: 0.4, 0.2
-                height: 35
-                on_release: drop_content.select('First Item')
-            Button:
-                id: btn3
-                text: 'Second Item'
-                size_hint: 0.4, 0.2
-                height: 35
-                on_release: drop_content.select('Third Item')
+        Spinner:
+            id: whatever
+            text: "Gender"
+            size_hint: 0.3, 0.1
+            pos_hint:{'center_x':.5, 'top': 0.9}
+            
+            values: ["Male","Female","Non Binary"]       
+            on_text:
+                root.on_spinner_select(self.text, "g")
+
+        Spinner:
+            id: whatever
+            text: "Preference"
+            size_hint: 0.3, 0.1
+            pos_hint:{'center_x':.5, 'top': 0.75}
+            
+            values: ["Lesbian","gay","Straight", "Bisexual", "Asexual", "Demisexual"]       
+            on_text:
+                root.on_spinner_select(self.text, "p")
+        
+        Spinner:
+            id: whatever
+            text: "Age"
+            size_hint: 0.3, 0.1
+            pos_hint:{'center_x':.5, 'top': 0.6}
+            
+            values: ["18-25","25-35","25-45", "45-55", "60+"]       
+            on_text:
+                root.on_spinner_select(self.text, "a")
+        
+
 
 
     Button:
@@ -122,7 +141,7 @@ WindowManager:
         pos_hint: {"x": 0, "y":0}
         on_release:
             app.root.current = "main"
-            root.manager.transition.direction = "left"
+            root.manager.transition.direction = "right"
     
     Button:
         text: "Continue"
@@ -130,5 +149,35 @@ WindowManager:
         size_hint: 0.15, 0.09
         pos_hint: {"x": 0.85, "y":0}
         on_release:
-            app.root.current = "main"
+            app.root.current = "login"
             root.manager.transition.direction = "left"
+
+<Login>:
+    name: "login"
+    code: code
+
+    FloatLayout:
+
+
+
+        TextInput:
+            hint_text: "code"
+            background_color: 1, 1, 1, 1
+            size_hint: 0.3, 0.07
+            pos_hint: {'center_x': 0.5, 'top': 0.65}
+            id: code
+            multiline: False
+        Button:
+            text: "Login"
+            background_color: 0.1, 0.5, 0.6, 1
+            pos_hint: {"x":0.4, "top":0.2}
+            size_hint: 0.2, 0.09
+
+            on_release:
+                app.root.current = "profile" if root.valid() else "login"
+                root.manager.transition.direction = "left"
+
+
+<Profile>:
+    name: "profile"
+    text: "Helloooooo"

@@ -57,9 +57,48 @@ class Password_saver:
                 user_id = self.curs.lastrowid
                 got_a_unique_code = True
                 return code
+    
+
+   
 
             
-                
+    def gender(self, answer):
+        user_id = self.curs.lastrowid
+        with self.database:
+            self.curs.execute("INSERT INTO users_answers VALUES (:question, :answer)", {"question": "Gender", "answer": answer.lower()})
+            last_id_answer = self.curs.lastrowid
+            self.curs.execute("INSERT INTO users_joins VALUES (:user_id, :answers_id)", {"user_id": user_id, "answers_id": last_id_answer})
+    
+    def preference(self, answer):
+        user_id = self.curs.lastrowid
+        with self.database:
+            self.curs.execute("INSERT INTO users_answers VALUES (:question, :answer)", {"question": "Preference", "answer": answer.lower()})
+            last_id_answer = self.curs.lastrowid
+            self.curs.execute("INSERT INTO users_joins VALUES (:user_id, :answers_id)", {"user_id": user_id, "answers_id": last_id_answer})
+    
+    def age(self, answer):
+        user_id = self.curs.lastrowid
+        with self.database:
+            self.curs.execute("INSERT INTO users_answers VALUES (:question, :answer)", {"question": "Preference", "answer": answer.lower()})
+            last_id_answer = self.curs.lastrowid
+            self.curs.execute("INSERT INTO users_joins VALUES (:user_id, :answers_id)", {"user_id": user_id, "answers_id": last_id_answer})
+    
+    def is_valid(self, code):
+        self.curs.execute("SELECT * FROM users WHERE code =:code", {'code': code.text})
+        result = self.curs.fetchall()
+        if result:
+            return True
+        return False
+
+
+    def login(self, code):
+        print(code)
+        self.curs.execute("SELECT * FROM users WHERE code =:code", {'code': code.text})
+        result = self.curs.fetchall()
+        print("You are now logged in as ", result[0][0])
+
+
+
 
 
     def current_user(self):
