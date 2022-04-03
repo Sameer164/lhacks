@@ -72,7 +72,6 @@ class WindowManager(ScreenManager):
 
 
 
-
 kv = Builder.load_file("my.kv")
 
 
